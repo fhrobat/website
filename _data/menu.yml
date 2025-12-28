@@ -3,14 +3,10 @@ entries:
         url: publications.html
 
       - title: teaching
-        entries:
-            - title: courses taught
-              url: teaching.html
+            url: teaching.html
 
-      - title: contact
-        entries:
-          - title: email — francesco.hrobat@maths.ox.ac.uk
-          - title: github
+      - title: email — francesco.hrobat@maths.ox.ac.uk
+      - title: github
             url: https://github.com/fhrobat
-          - title: Mathematical Institute webpage
+      - title: Mathematical Institute webpage
             url: https://www.maths.ox.ac.uk/people/francesco.hrobat
