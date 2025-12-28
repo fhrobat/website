@@ -1,39 +1,16 @@
 entries:
-  - title: info
-    entries:
-      - title: Francesco Hrobat
-      - title: PhD student in Mathematics — University of Oxford
-      - title: research interests
-
-  - title: research
-    entries:
-      - title: research topics
-      - title: preprints and work in progress
       - title: publications
         url: publications.html
 
-  - title: all posts
-    post_list:
-      limit: 5
-      show_more: true
-      show_more_text: See archive...
-      show_more_url: archive.html
+      - title: teaching
+          entries:
+            - title: courses taught
+              url: teaching.html
 
-  - title: posts by category
-    post_list:
-      category: research
-      show_more: true
-      show_more_text: See more posts...
-      show_more_url: research-archive.html
-
-  - title: teaching
-    entries:
-      - title: courses taught
-      - title: teaching material
-        url: teaching.html
-
-  - title: contact
-    entries:
-      - title: email — francesco.hrobat@maths.ox.ac.uk
-      - title: github
-        url: https://github.com/fhrobat
+      - title: contact
+        entries:
+          - title: email — francesco.hrobat@maths.ox.ac.uk
+          - title: github
+            url: https://github.com/fhrobat
+          -title: Mathematical Isntitute webpage
+            url: https://www.maths.ox.ac.uk/people/francesco.hrobat
