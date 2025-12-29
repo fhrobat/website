@@ -1,24 +1,21 @@
-// name_matrix.js
 document.addEventListener('DOMContentLoaded', () => {
-  const el = document.querySelector('#name_title');
+  const el = document.querySelector('#site-name');
   if (!el) return;
 
-  const original = el.textContent;
+  const originalText = el.textContent;
 
-  // matrici testuali (monospaced implicit via whitespace: pre)
   const matrixFrancesco =
 `⎡ F  r  a ⎤
 ⎢ n  c  e ⎥
 ⎣ s  c  o ⎦`;
 
-  const matrixHrobat =
-`⎡ H  r ⎤
-| o  b |
+  const matrixHRobat =
+`⎡ H  R ⎤
+⎢ o  b ⎥
 ⎣ a  t ⎦`;
 
-  const matrixText = `${matrixFrancesco}\n\n${matrixHrobat}`;
+  const matrixText = `${matrixFrancesco}\n\n${matrixHRobat}`;
 
-  // helper per transizione smooth
   function swapText(newText) {
     el.style.opacity = '0';
     setTimeout(() => {
@@ -27,14 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
   }
 
-  // timeline
-  setTimeout(() => {
-    swapText(matrixText);
+  /* ---- FISSIAMO L'ALTEZZA MASSIMA (anti-salto) ---- */
+  el.textContent = matrixText;
+  el.style.visibility = 'hidden';
 
-    // torna al nome originale dopo 2 secondi
+  requestAnimationFrame(() => {
+    const fixedHeight = el.offsetHeight + 'px';
+    el.style.height = fixedHeight;
+
+    el.textContent = originalText;
+    el.style.visibility = 'visible';
+
+    /* ---- TIMELINE ---- */
     setTimeout(() => {
-      swapText(original);
-    }, 2000);
+      swapText(matrixText);
 
-  }, 5000);
+      setTimeout(() => {
+        swapText(originalText);
+      }, 2000);
+
+    }, 5000);
+  });
 });
