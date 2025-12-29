@@ -3,7 +3,8 @@
     <li>
     {%- if item.url -%}
       <a href="{{ item.url }}">{{ item.title }}</a>
-    {%- else -%}
+    {%- endif -%}
+    {%- if item.content -%}
       <details class="smooth-toggle">
         <summary> {{item.title}} </summary>
         <div class="smooth-content">
@@ -12,6 +13,8 @@
           </p>
         </div>
       </details>
+    {%- else -%}
+      {{item.title}}
     {%- endif -%}
     </li>
 
