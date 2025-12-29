@@ -1,14 +1,17 @@
-// fall_chars_sync.updated.js
+// fall_chars_sync.js
 document.addEventListener('DOMContentLoaded', () => {
+  // CONFIG
   const BTN_ID = 'trigger-fall';
   const SPLIT_SELECTORS = '#gravity-zone';
   const MAX_CHARS = 4000;
-  const RESET_AFTER = 3000; // rimane come riferimento
+  const RESET_AFTER = 3000; // rimane come riferimento (non usato se riseTriggerDelay = fallEndEst)
 
+  // STATO
   let running = false;
   let timers = [];
   const originals = new Map();
 
+  // HELPERS
   function clearTimers() {
     timers.forEach(t => clearTimeout(t));
     timers = [];
@@ -23,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return Number.isNaN(n) ? fallback : n;
   }
 
-  // conteggio ricorsivo testuale (non salta più in base al parent tag)
+  // CONTEGGIO RICORSIVO DEI CARATTERI (prima di mutare il DOM)
   function countTextCharsRecursively(node) {
     let count = 0;
     node.childNodes.forEach(child => {
@@ -38,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return count;
   }
 
+  // SOSTITUISCE I TEXT NODE CON SPAN PER CARATTERE
   function replaceTextNodesWithSpans(node) {
     const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
       acceptNode(txtNode) {
@@ -65,13 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
       for (const ch of Array.from(text)) {
         const span = document.createElement('span');
         span.className = 'fall-char';
-        span.textContent = (ch === ' ') ? '\u00A0' : ch;
+        // usa lo spazio normale: permette giustificazione
+        span.textContent = ch;
         frag.appendChild(span);
       }
       textNode.parentNode.replaceChild(frag, textNode);
     });
   }
 
+  // PREPARA I CONTAINER: conta, salva innerHTML e sostituisce text nodes
   function prepareChars(selectors) {
     const elements = Array.from(document.querySelectorAll(selectors));
     if (!elements.length) {
@@ -84,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const el of elements) {
       const c = countTextCharsRecursively(el);
-      // log per ogni elemento per capire perché potrebbe essere scartato
       console.log('[fall_chars] elemento trovato:', el, 'chars:', c);
       if (c === 0) continue;
       total += c;
@@ -100,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return { success: false, total: 0, processed: [] };
     }
 
+    // effettua la trasformazione: salva innerHTML e replace ricorsivo
     processed.forEach(el => {
       if (!originals.has(el)) originals.set(el, el.innerHTML);
       replaceTextNodesWithSpans(el);
@@ -113,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return Array.from(document.querySelectorAll('.fall-char'));
   }
 
+  // pop per-char con delay random, poi fall simultanea; ritorna stima durata caduta (ms)
   function popThenFallAll(chars) {
     if (!chars.length) return 0;
     const POP_MAX_DELAY = cssVarNumber('--char-pop-max-delay', 120);
@@ -120,9 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fallDuration = cssVarNumber('--char-fall-duration', 1600);
 
     const popDelays = chars.map(() => Math.floor(Math.random() * POP_MAX_DELAY));
+
     chars.forEach((ch, i) => {
       const d = popDelays[i];
-      const t = setTimeout(() => ch.classList.add('char-pop'), d);
+      const t = setTimeout(() => {
+        ch.classList.add('char-pop');
+      }, d);
       timers.push(t);
     });
 
@@ -134,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rot = (Math.random() * 40 + 8) * (Math.random() < 0.5 ? -1 : 1);
         ch.style.setProperty('--r', rot + 'deg');
         ch.classList.remove('char-pop');
-        void ch.offsetWidth;
+        void ch.offsetWidth; // force reflow
         ch.classList.remove('char-rise-active');
         ch.classList.add('char-fall-active');
       });
@@ -144,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return maxPopEnd + fallDuration;
   }
 
+  // rise together; ritorna durata stimata (ms)
   function riseAllTogether(chars) {
     const riseDur = cssVarNumber('--char-rise-duration', 900);
     chars.forEach(ch => {
@@ -154,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return riseDur;
   }
 
+  // ORCHESTRATORE
   function doFallSync() {
     if (running) {
       console.log('[fall_chars] già in esecuzione');
@@ -183,20 +195,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fallEndEst = popThenFallAll(chars);
 
-    // qui la sincronizzazione che volevi
+    // rise sync sulla fine stimata della caduta
     const riseTriggerDelay = fallEndEst;
 
     const tRise = setTimeout(() => {
       const riseDur = riseAllTogether(chars);
       const tCleanup = setTimeout(() => {
+        // ripristina innerHTML originale
         for (const [el, html] of originals.entries()) {
           el.innerHTML = html;
         }
         originals.clear();
+
+        // pulizia eventuale
         chars.forEach(ch => {
           ch.classList.remove('char-pop','char-fall-active','char-rise-active');
           ch.style.removeProperty('--r');
         });
+
         document.documentElement.classList.remove('falling-mode');
         running = false;
         clearTimers();
@@ -209,11 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('[fall_chars] stima durata caduta (ms):', fallEndEst, 'rise trigger (ms):', riseTriggerDelay);
   }
 
-  // bind
+  // BIND UI & debug
   const btn = document.getElementById(BTN_ID);
   if (btn) btn.addEventListener('click', () => { if (!running) doFallSync(); });
   document.addEventListener('keydown', e => { if (e.key === 'f' && !running) doFallSync(); });
 
+  // exposure for debug
   window.__fall_chars_sync = doFallSync;
   window.addEventListener('beforeunload', () => clearTimers());
 });
