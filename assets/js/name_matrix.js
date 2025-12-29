@@ -10,12 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
 ⎢ n  c  e ⎥
 ⎣ s  c  o ⎦`;
 
-  const matrixHRobat =
+  const matrixHrobat =
 `⎡ H  r ⎤
 ⎢ o  b ⎥
 ⎣ a  t ⎦`;
 
-  const matrixText = `${matrixFrancesco}  ${matrixHRobat}`;
+  const GAP = '    '; // spazio tra le matrici
+
+  const matrixText = matrixFrancesco
+    .map((row, i) => row + GAP + matrixHrobat[i])
+    .join('\n');
 
   /* -------- timing (ms) -------- */
   const DELAY_BEFORE = 5000; // attesa prima di mostrare le matrici
