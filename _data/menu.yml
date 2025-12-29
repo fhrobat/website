@@ -3,6 +3,8 @@ entries:
     url: publications.html
     content: > 
      ciao
+     ciao
+     ciao
 
   - title: teaching
     url: teaching.html
