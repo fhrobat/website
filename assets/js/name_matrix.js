@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ⎣ s  c  o ⎦`;
 
   const matrixHRobat =
-`⎡ H  R ⎤
+`⎡ H  r ⎤
 ⎢ o  b ⎥
 ⎣ a  t ⎦`;
 
