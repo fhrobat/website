@@ -59,6 +59,9 @@ li { margin: 0.4rem 0; }
   max-width: 80%;
   margin: 0 auto;
   padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .row {
