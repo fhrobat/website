@@ -4,7 +4,14 @@
     {%- if item.url -%}
       <a href="{{ item.url }}">{{ item.title }}</a>
     {%- else -%}
-      {{ item.title }}
+      <details class="smooth-toggle">
+        <summary> {{item.title}} </summary>
+        <div class="smooth-content">
+          <p>
+            {{item.content}}
+          </p>
+        </div>
+      </details>
     {%- endif -%}
     </li>
 
