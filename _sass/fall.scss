@@ -5,7 +5,33 @@
   --char-rise-duration: 900;
 }
 
-/* performance: trasformazioni GPU */
+/* =========================================================
+   CLIPPING DENTRO LA COLUMN (NO SHIFT / NO SCROLLBAR)
+   ========================================================= */
+
+/* La column deve clippare tutto ciò che "esce" durante lo shake */
+#gravity-zone{
+  position: relative;
+  overflow: hidden;   /* fallback */
+  overflow: clip;     /* se supportato: clippa senza scrollbar */
+  contain: paint;     /* isola il paint: lo shake non "invade" fuori */
+}
+
+/* Durante l’animazione: niente overflow-x (evita comparsa/scomparsa scrollbar) */
+html.falling-mode,
+html.falling-mode body{
+  overflow-x: hidden; /* oppure clip */
+}
+
+/* Se la tua column è un flex item, questo spesso elimina micro-overflow */
+#gravity-zone{
+  min-width: 0;
+}
+
+/* =========================================================
+   ANIMAZIONI CHAR
+   ========================================================= */
+
 .fall-char{
   display: inline-block;
   transform: translate3d(0,0,0);
@@ -13,14 +39,9 @@
   backface-visibility: hidden;
 }
 
-/* opzionale: blocco overflow mentre cade */
-.falling-mode #gravity-zone{
-  overflow: hidden;
-}
-
-/* 1) vibrazione iniziale più pronunciata */
 .char-pop{
-  animation: charPop calc(var(--char-pop-duration) * 1ms) cubic-bezier(.2,.9,.2,1.2) both;
+  animation: charPop calc(var(--char-pop-duration) * 1ms)
+    cubic-bezier(.2,.9,.2,1.2) both;
 }
 
 @keyframes charPop{
@@ -34,9 +55,9 @@
   100% { transform: translate3d(0,0,0) rotate(0deg); }
 }
 
-/* 2) caduta smooth: SOLO transform translate3d */
 .char-fall-active{
-  animation: charFall calc(var(--char-fall-duration) * 1ms) cubic-bezier(.22,.61,.36,1) forwards;
+  animation: charFall calc(var(--char-fall-duration) * 1ms)
+    cubic-bezier(.22,.61,.36,1) forwards;
 }
 
 @keyframes charFall{
@@ -44,9 +65,9 @@
   to   { transform: translate3d(0,var(--y),0) rotate(var(--r)); opacity: 1; }
 }
 
-/* 3) risalita stesso percorso (reverse della caduta) */
 .char-rise-active{
-  animation: charRise calc(var(--char-rise-duration) * 1ms) cubic-bezier(.22,.61,.36,1) forwards;
+  animation: charRise calc(var(--char-rise-duration) * 1ms)
+    cubic-bezier(.22,.61,.36,1) forwards;
 }
 
 @keyframes charRise{
@@ -54,7 +75,6 @@
   to   { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; }
 }
 
-/* accessibilità */
 @media (prefers-reduced-motion: reduce){
   .char-pop, .char-fall-active, .char-rise-active{ animation: none !important; }
 }
