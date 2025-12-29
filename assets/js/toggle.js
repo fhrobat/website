@@ -1,103 +1,58 @@
-(function () {
-  function openContent(content) {
-    content.style.height = content.scrollHeight + 'px';
-    content.style.opacity = '1';
-    function onEnd() {
-      content.style.height = 'auto';
-      content.removeEventListener('transitionend', onEnd);
-    }
-    content.addEventListener('transitionend', onEnd);
-  }
-
-  function closeContent(content) {
-    // forziamo altezza corrente prima di animare a 0
-    const cur = content.scrollHeight;
-    content.style.height = cur + 'px';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        content.style.height = '0';
-        content.style.opacity = '0';
-      });
-    });
-  }
-
-  function toggleDetails(details) {
+// smooth_toggle.js
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.smooth-toggle').forEach(details => {
     const content = details.querySelector('.smooth-content');
     if (!content) return;
-    if (details.open) {
-      // chiudi
-      details.open = false;
-      closeContent(content);
-      details.setAttribute('aria-expanded', 'false');
-    } else {
-      // apri
-      details.open = true;
-      openContent(content);
-      details.setAttribute('aria-expanded', 'true');
-    }
-  }
 
-  function initDetails(details) {
-    const summary = details.querySelector('summary');
-    const content = details.querySelector('.smooth-content');
-    if (!summary || !content) return;
-
-    // assicurati stili base
+    // lettura iniziale: se details è open, rendiamo content visibile
     content.style.overflow = 'hidden';
-    content.style.opacity = details.hasAttribute('open') ? '1' : '0';
-    content.style.height = details.hasAttribute('open') ? 'auto' : '0';
-    details.setAttribute('role', 'group');
+    content.style.height = details.open ? 'auto' : '0';
+    content.style.opacity = details.open ? '1' : '0';
 
-    // rimuoviamo possibili doppi handler: non fare affidamento su toggle nativo
-    // Gestiamo click e keyboard su summary (accessibile)
-    summary.setAttribute('tabindex', '0'); // assicurare focus
-    summary.setAttribute('role', 'button');
-    summary.setAttribute('aria-controls', content.id || '');
-    details.setAttribute('aria-expanded', details.hasAttribute('open') ? 'true' : 'false');
+    // Assicuriamoci che padding-top/bottom siano a 0 quando chiuso per misurare correttamente
+    if (!details.open) {
+      content.style.paddingTop = '0';
+      content.style.paddingBottom = '0';
+    }
 
-    // Click handler
-    summary.addEventListener('click', (e) => {
-      // preveniamo il comportamento nativo e gestiamo tutto noi
-      e.preventDefault();
-      toggleDetails(details);
-    });
-
-    // Support keyboard (Enter / Space)
-    summary.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggleDetails(details);
-      }
-    });
-
-    // Se il details viene aperto/chiuso da codice esterno, gestiamo comunque l'animazione:
-    // (listener su "toggle" è utile per sincronizzare stati esterni)
     details.addEventListener('toggle', () => {
-      // Se è stato aperto da codice esterno, ripristiniamo l'animazione
       if (details.open) {
-        // apri con animazione (ma evita doppia animazione se già aperto)
-        if (getComputedStyle(content).height === '0px' || content.style.height === '0px') {
-          openContent(content);
-        } else {
-          content.style.height = 'auto';
-          content.style.opacity = '1';
-        }
+        // apertura: prima rendiamo i padding verticali come nel CSS (per includerli nel scrollHeight)
+        const computedStyle = getComputedStyle(content);
+        // ricaviamo il padding desiderato dal CSS (se volevi variare, impostalo qui)
+        const padTop = parseFloat(computedStyle.paddingTop) || 0;
+        const padBottom = parseFloat(computedStyle.paddingBottom) || 0;
+
+        // impostiamo temporaneamente i padding in modo che scrollHeight li includa
+        content.style.paddingTop = padTop + 'px';
+        content.style.paddingBottom = padBottom + 'px';
+
+        // ora misura e animazione
+        content.style.height = content.scrollHeight + 'px';
+        content.style.opacity = '1';
+
+        const onEnd = function () {
+          content.style.height = 'auto'; // permette contenuto dinamico
+          content.removeEventListener('transitionend', onEnd);
+        };
+        content.addEventListener('transitionend', onEnd);
+
       } else {
-        if (getComputedStyle(content).height !== '0px') {
-          closeContent(content);
-        }
+        // chiusura: forziamo altezza corrente (px) prima di animare a 0
+        const cur = content.scrollHeight;
+        content.style.height = cur + 'px';
+
+        // piccolo frame per permettere al browser di applicare il valore
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            content.style.height = '0';
+            content.style.opacity = '0';
+            // togli padding verticale per risparmiare spazio durante la chiusura
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+          });
+        });
       }
-      details.setAttribute('aria-expanded', details.open ? 'true' : 'false');
     });
-  }
-
-  function initAll() {
-    document.querySelectorAll('.smooth-toggle').forEach(initDetails);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAll);
-  } else {
-    initAll();
-  }
-})();
+  });
+});
