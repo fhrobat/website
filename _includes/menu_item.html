@@ -1,18 +1,28 @@
 <ul style="list-style-type:none;">
   {%-for item in include.collection-%}
     <li>
-    {%- if item.url -%}
-      <a href="{{ item.url }}">{{ item.title }}</a>
-    {%- endif -%}
-    {%- if item.content -%}
+    {%- if item.url and item.content-%}
       <details class="smooth-toggle">
         <summary> {{item.title}} </summary>
         <div class="smooth-content">
           <p>
+            <a href="{{ item.url }}">{{ item.title }}</a> <br>
             {{item.content}}
           </p>
         </div>
       </details>
+    {%- elseif item.content -%}
+      <details class="smooth-toggle">
+        <summary> {{item.title}} </summary>
+        <div class="smooth-content">
+          <p>
+            <a href="{{ item.url }}">{{ item.title }}</a> <br>
+            {{item.content}}
+          </p>
+        </div>
+      </details>
+    {%- elseif item.url -%}
+      <a href="{{ item.url }}">{{ item.title }}</a>
     {%- else -%}
       {{item.title}}
     {%- endif -%}
