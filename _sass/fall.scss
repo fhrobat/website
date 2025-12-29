@@ -1,0 +1,69 @@
+:root{
+  --fall-duration: 1000ms;
+  --rise-duration: 900ms;
+  --stagger: 80ms;
+  --fall-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --rise-ease: cubic-bezier(0.2, 1, 0.3, 1); /* con overshoot */
+  --max-fall-y: 120vh;
+  --shadow-start: 0 6px 12px rgba(0,0,0,0.06);
+  --shadow-mid:   0 18px 36px rgba(0,0,0,0.12);
+}
+
+/* elementi che possono cadere: renderizzati inline-block per trasformazioni */
+.fallable {
+  display: inline-block;
+  will-change: transform, opacity, box-shadow;
+  transform-origin: center;
+}
+
+/* ===== CADUTA: trasla, ruota, aumenta ombra ===== */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    box-shadow: var(--shadow-start);
+  }
+  50% {
+    transform: translateY(calc(var(--max-fall-y) * 0.5)) rotate(calc(var(--r) * 0.6)) scale(0.99);
+    opacity: 0.95;
+    box-shadow: var(--shadow-mid);
+  }
+  100% {
+    transform: translateY(var(--max-fall-y)) rotate(calc(var(--r) * 1.2)) scale(0.98);
+    opacity: 0;
+    box-shadow: 0 48px 80px rgba(0,0,0,0.18);
+  }
+}
+
+/* ===== RISALITA con piccolo rimbalzo =====
+   overshoot: arriva leggermente sopra (negativo), poi scende e si ferma */
+@keyframes rise {
+  0% {
+    transform: translateY(var(--max-fall-y)) rotate(calc(var(--r) * 1.2)) scale(0.98);
+    opacity: 0;
+    box-shadow: 0 48px 80px rgba(0,0,0,0.18);
+  }
+  60% {
+    transform: translateY(-12px) rotate(calc(var(--r) * 0.15)) scale(1.02);
+    opacity: 1;
+    box-shadow: var(--shadow-mid);
+  }
+  85% {
+    transform: translateY(4px) rotate(0deg) scale(0.995);
+    box-shadow: var(--shadow-start);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    box-shadow: none;
+  }
+}
+
+/* classi applicate dal JS */
+.fall-active {
+  animation: fall var(--fall-duration) var(--fall-ease) forwards;
+}
+
+.rise-active {
+  animation: rise var(--rise-duration) var(--rise-ease) forwards;
+}
