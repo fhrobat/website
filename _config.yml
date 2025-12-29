@@ -14,7 +14,7 @@ description: > # description of the site (multiple lines allowed)
   I am a Mathematics PhD student at University of Oxford, Linacre College. <br>
   I am supported by the Mathematical Institute Scholarship by Oxford Mathematical Institute. <br>
   Previously, I completed my bachelor's and master's degrees at Scuola Normale Superiore of Pisa and University of Pisa. <br> <br>
-  My research focuses on <strong>numerical linear algebra</strong>, including parturbation theory, randomized linear algebra and Krylov methods.
+  My research focuses on <strong>numerical linear algebra</strong>, including perturbation theory, randomized linear algebra and Krylov methods.
   </div>
  </div>
 permalink: /:slug.html
