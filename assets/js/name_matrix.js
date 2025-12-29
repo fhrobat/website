@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const matrixHrobat =
 `⎡ H  r ⎤
-⎣ o  b ⎦
-  a  t`;
+| o  b |
+⎣ a  t ⎦`;
 
   const matrixText = `${matrixFrancesco}\n\n${matrixHrobat}`;
 
