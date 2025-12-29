@@ -26,7 +26,6 @@ body[a="dark"] { @include dark-appearance; }
 html, body { 
   background: white;
   width: 100%;
-  text-align: center;
   justify-content: center;
 }
 
@@ -67,6 +66,7 @@ li { margin: 0.4rem 0; }
 .column {
   flex: 50%;
   float: left;
+  justify-content: center;
 }
 
 hr {
