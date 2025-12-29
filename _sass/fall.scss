@@ -1,20 +1,22 @@
 :root{
   --char-pop-duration: 180ms;    /* pop prima della caduta */
-  --char-fall-duration: 1600ms;  /* durata caduta (più lenta) */
+  --char-fall-duration: 1600ms;  /* durata caduta */
   --char-rise-duration: 900ms;   /* durata risalita */
   --char-pop-max-delay: 120;     /* max delay random prima del pop (ms) */
-  --char-stagger: 18ms;          /* usato per fallback, non per caduta sincronizzata */
+  --char-stagger: 18ms;
   --max-fall-y: 120vh;
   --shadow-start: 0 6px 12px rgba(0,0,0,0.06);
   --shadow-mid:   0 18px 36px rgba(0,0,0,0.12);
 }
 
-/* ogni carattere è inline-block per trasformazioni */
+/* comportamento INIZIALE: inline per permettere giustificazione */
 .fall-char {
-  display: inline-block;
-  white-space: pre; /* preserve spaces */
+  display: inline;           /* IMPORTANT: inline per consentire giustificazione */
+  white-space: pre;          /* preserve spaces */
   will-change: transform, opacity, box-shadow;
   transform-origin: center;
+  vertical-align: baseline;
+  line-height: 1.1;         /* regola se vedi piccoli offset; metti 1 o quello del tuo testo */
 }
 
 /* ===== small pop (sbalzo) prima di cadere ===== */
@@ -24,7 +26,9 @@
   100% { transform: translateY(0) scale(1); }
 }
 .char-pop {
+  display: inline-block; /* ora diventa inline-block per poter trasformare */
   animation: char-pop var(--char-pop-duration) cubic-bezier(.2,.9,.3,1) forwards;
+  vertical-align: baseline;
 }
 
 /* ===== CADUTA: trasla giù, ruota e aumenta ombra ===== */
@@ -44,6 +48,12 @@
     opacity: 0;
     box-shadow: 0 48px 80px rgba(0,0,0,0.18);
   }
+}
+
+.char-fall-active {
+  display: inline-block; /* necessario per transform/rotate/translate */
+  vertical-align: baseline;
+  animation: char-fall var(--char-fall-duration) cubic-bezier(0.2,0.8,0.2,1) forwards;
 }
 
 /* ===== RISALITA con overshoot (rimbalzo) ===== */
@@ -69,17 +79,23 @@
   }
 }
 
-/* classi attivate dal JS */
-.char-pop { /* vedi sopra */ }
-.char-fall-active {
-  animation: char-fall var(--char-fall-duration) cubic-bezier(0.2,0.8,0.2,1) forwards;
-}
 .char-rise-active {
+  display: inline-block;
+  vertical-align: baseline;
   animation: char-rise var(--char-rise-duration) cubic-bezier(0.2,1,0.3,1) forwards;
 }
 
-/* durante l'effetto blocca scroll e interazioni per evitare scrollbubbles */
+/* durante l'effetto blocca scroll e interazioni SOLO per la zona gravity-zone
+   (evita di disabilitare click su tutto il sito) */
+.falling-mode #gravity-zone,
+.falling-mode #gravity-zone * {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* se vuoi disabilitare globalmente (più drastico) usa la regola seguente al posto di sopra:
 .falling-mode {
   overflow: hidden !important;
 }
 .falling-mode * { pointer-events: none; user-select: none; }
+*/
