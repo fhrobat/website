@@ -23,12 +23,28 @@ $transition-slow: 300ms ease;
   overflow: hidden;       /* importante: mantiene il contenuto dentro il box */
   transition: box-shadow $transition-fast, border-color $transition-fast, background $transition-fast;
 
-  /* effetto highlight quando si passa sul sommario (illumina tutto il box) */
-  &:hover,
-  &:focus-within {
-    background: hotpink;
-    box-shadow: 0 8px 20px rgba(1,42,74,0.04);
-    border-color: rgba(1,42,74,0.10);
+  /* =========================
+     Hover visibile e accessibile
+     - il parent reagisce quando il summary è hoverato (via :has)
+     - focus-within è attivo SOLO quando il box è CHIUSO (evita evidenziazione persistente dopo click)
+     ========================= */
+  &:has(.boxed-summary:hover),
+  &:not([open]):focus-within {
+    background: $btn-open-bg;                 /* leggero cambio visivo */
+    box-shadow: 0 10px 26px rgba(1,42,74,0.06); /* un filo più evidente */
+    border-color: rgba(1,42,74,0.14);
+  }
+
+  /* stato when open: più neutro, non troppo “evidenziato” (ma differente da closed) */
+  &[open] {
+    background: $btn-open-bg;
+    border-color: rgba(1,42,74,0.12);
+    box-shadow: 0 6px 18px rgba(1,42,74,0.04);
+  }
+
+  /* Se è open e l'utente poi ci passa sopra col mouse, mostriamo hover più evidente */
+  &[open]:has(.boxed-summary:hover) {
+    box-shadow: 0 10px 26px rgba(1,42,74,0.06);
   }
 
   /* =========================
@@ -68,10 +84,16 @@ $transition-slow: 300ms ease;
       transition: transform $transition-fast;
     }
 
-    &:hover,
-    &:focus {
-      /* illumina l'intero box via parent :hover; qui teniamo solo cursor/visual */
+    /* Fallback e feedback immediato del summary (utile se :has non è disponibile) */
+    &:hover {
+      background: $btn-hover;
+    }
+
+    /* focus per tastiera (non rimuovere completamente l'indicatore accessibile) */
+    &:focus-visible {
       outline: none;
+      box-shadow: 0 0 0 4px rgba(1,42,74,0.06);
+      background: $btn-hover;
     }
   }
 
