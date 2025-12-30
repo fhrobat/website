@@ -14,7 +14,7 @@
   position: relative;
   overflow: hidden;   /* fallback */
   overflow: clip;     /* se supportato: clippa senza scrollbar */
-  contain: paint;     /* isola il paint: lo shake non "invade" fuori */
+  contain: layout paint;     /* isola il paint: lo shake non "invade" fuori */
 }
 
 /* Durante l’animazione: niente overflow-x (evita comparsa/scomparsa scrollbar) */
