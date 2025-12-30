@@ -105,12 +105,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setPerCharVarsForPop(ch) {
-    // vibrazione più pronunciata: ampiezza maggiore + micro rotazione
-    const shake = (Math.random() * 1 + 1);   // 6px → 12px
-    const rot   = (Math.random() * 10 + 6) * (Math.random() < 0.5 ? -1 : 1); // ±6°..±16°
-    ch.style.setProperty('--pop-shake', shake.toFixed(1) + 'px');
-    ch.style.setProperty('--pop-rot', rot.toFixed(1) + 'deg');
+  const ampX = Math.random() * 10 + 10; // 10–20px
+  const ampY = Math.random() * 6 + 4;   // 4–10px
+  const rotA = Math.random() * 14 + 6;  // 6–20deg
+
+  for (let i = 1; i <= 9; i++) {
+    const sx = (Math.random() * 2 - 1) * ampX;
+    const sy = (Math.random() * 2 - 1) * ampY;
+    const r  = (Math.random() * 2 - 1) * rotA;
+
+    ch.style.setProperty(`--qx${i}`, sx.toFixed(1) + 'px');
+    ch.style.setProperty(`--qy${i}`, sy.toFixed(1) + 'px');
+    ch.style.setProperty(`--qr${i}`, r.toFixed(1) + 'deg');
   }
+}
+
 
   function setPerCharVarsForFall(ch, zoneBottom) {
     const r = ch.getBoundingClientRect();
