@@ -2,7 +2,7 @@ entries:
   - title: Publications
     url: publications.html
     content: > 
-     <ul>
+     <ol>
        <li>
        <strong> Lanczos with compression for symmetric matrix Lyapunov equations </strong> <br>
        <em> Angelo A. Casulli, Francesco Hrobat, Daniel Kressner </em><br>
@@ -13,11 +13,12 @@ entries:
        <em> Desmond J. Higham, Francesco Hrobat, Francesco Tudisco </em> <br>
        2025, <a href="https://arxiv.org/abs/2511.11742">ArXiv<a>
        </li>
-     </ul>
+     </ol>
   - title: Talks and visits
     url: talks.html
     content: >
-      <li>
+      <ol>
+       <li>
        <strong>Lanczos with compression for symmetric Lyapunov equations</strong> <br>
        <em>24/06/2025 &emsp ILAS 2025, Kaohsiung, Taiwan</em> <br>
        Invited speaker at Advances in Krylov subspace methods and their applications minisymposium
@@ -31,7 +32,7 @@ entries:
       <strong>Calcolo della SVD tramite funzioni di Zolotarev</strong>
       <em> 21/03/2025 &emsp SIAM Student Chapter UniPi-SNS, Pisa, Italy</em>
        </li>
-     </ul>
+     </ol>
     
 
   - title: teaching
