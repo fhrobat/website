@@ -30,7 +30,7 @@ description: > # description of the site (multiple lines allowed)
       </p>
     </div>
   </div>
-</div>
+ </div>
 
 permalink: /:slug.html
 
