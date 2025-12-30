@@ -10,8 +10,8 @@ description: > # description of the site (multiple lines allowed)
     <img src="hrobat.jpg" class="img-portrait" alt="Francesco Hrobat, portrait">
   </div>
 
-  <div class="column" id="gravity-zone">
-    <div class="column-inner">
+  <div class="column">
+    <div class="column-inner" id="gravity-zone">
       <p class="contacts">
         <a href="mailto:francesco.hrobat@maths.ox.ac.uk">Email</a>
         <a href="https://github.com/fhrobat/" target="_blank" rel="noopener">GitHub</a>
