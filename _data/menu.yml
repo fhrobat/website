@@ -2,9 +2,15 @@ entries:
   - title: publications
     url: publications.html
     content: > 
-     ciao
-     ciao
-     ciao
+     <ul>
+       <li>
+       Lanczos with compression for symmetric matrix Lyapunov equations <br>
+       Angelo A. Casulli, Francesco Hrobat, Daniel Kressner <br>
+       <a href="https://arxiv.org/abs/2505.22498">ArXiv<a> 
+       </li>
+       <li>
+       
+     </ul>
 
   - title: teaching
     url: teaching.html
