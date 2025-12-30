@@ -184,6 +184,8 @@ img {
 }
 
 #theme-toggle {
+  filter: none !important;
+  -webkit-filter: none !important;
   background: transparent;
   border: 1px solid currentColor;
   padding: 6px 8px;
