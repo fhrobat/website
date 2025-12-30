@@ -105,19 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setPerCharVarsForPop(ch) {
-  const ampX = Math.random() * 2 + 2; // 10–20px
-  const ampY = Math.random() * 0.1 + 0.1;   // 4–10px
-  const rotA = Math.random() * 14 + 6;  // 6–20deg
+  const shakeX = Math.random() * 2 + 2; 
+  ch.style.setProperty('--shake-x', shakeX.toFixed(1) + 'px');
+}
 
-  for (let i = 1; i <= 9; i++) {
-    const sx = (Math.random() * 2 - 1) * ampX;
-    const sy = (Math.random() * 2 - 1) * ampY;
-    const r  = (Math.random() * 2 - 1) * rotA;
-
-    ch.style.setProperty(`--qx${i}`, sx.toFixed(1) + 'px');
-    ch.style.setProperty(`--qy${i}`, sy.toFixed(1) + 'px');
-    ch.style.setProperty(`--qr${i}`, r.toFixed(1) + 'deg');
-  }
 }
 
 
