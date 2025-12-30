@@ -14,6 +14,25 @@ entries:
        2025, <a href="https://arxiv.org/abs/2511.11742">ArXiv<a>
        </li>
      </ul>
+  - title: Talks and visits
+    url: talks.html
+    content: >
+      <li>
+       <strong>Lanczos with compression for symmetric Lyapunov equations</strong> <br>
+       <em>24/06/2025 &emsp ILAS 2025, Kaohsiung, Taiwan</em> <br>
+       Invited speaker at Advances in Krylov subspace methods and their applications minisymposium
+       </li>
+       <li>
+       <strong> Lanczos with compression for symmetric Lyapunov equations </strong> <br>
+       <em> 20/01/2025 &emsp Due giorni di Algebra Lineare Numerica, Pisa, Italy </em> <br>
+       Poster session
+       </li>
+       <li>
+      <strong>Calcolo della SVD tramite funzioni di Zolotarev</strong>
+      <em> 21/03/2025 &emsp SIAM Student Chapter UniPi-SNS, Pisa, Italy</em>
+       </li>
+     </ul>
+    
 
   - title: teaching
     url: teaching.html
