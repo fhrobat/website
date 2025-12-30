@@ -105,12 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setPerCharVarsForPop(ch) {
-  const shakeX = Math.random() * 2 + 2; 
-  ch.style.setProperty('--shake-x', shakeX.toFixed(1) + 'px');
+    const shakeX = Math.random() * 2 + 2; // 2..4px (modifica se vuoi più ampiezza)
+    ch.style.setProperty('--shake-x', shakeX.toFixed(1) + 'px');
   }
-
-}
-
 
   function setPerCharVarsForFall(ch, zoneBottom) {
     const r = ch.getBoundingClientRect();
@@ -184,27 +181,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function riseAllTogether(chars) {
-  const riseDur = cssVarNumber('--char-rise-duration', 900);
+    const riseDur = cssVarNumber('--char-rise-duration', 900);
 
-  // 1) metti subito RISE (così non c’è mai un frame “a zero”)
-  for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i];
-    if (!ch) continue;
-    ch.classList.add('char-rise-active');
-  }
-
-  // 2) nel frame dopo togli FALL
-  requestAnimationFrame(() => {
+    // 1) metti subito RISE (così non c’è mai un frame “a zero”)
     for (let i = 0; i < chars.length; i++) {
       const ch = chars[i];
       if (!ch) continue;
-      ch.classList.remove('char-fall-active');
+      ch.classList.add('char-rise-active');
     }
-  });
 
-  return riseDur;
-}
+    // 2) nel frame dopo togli FALL
+    requestAnimationFrame(() => {
+      for (let i = 0; i < chars.length; i++) {
+        const ch = chars[i];
+        if (!ch) continue;
+        ch.classList.remove('char-fall-active');
+      }
+    });
 
+    return riseDur;
+  }
 
   function cleanupAfter(chars) {
     for (const [el, html] of originals.entries()) {
@@ -221,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ch.style && ch.style.removeProperty('--y');
       ch.style && ch.style.removeProperty('--pop-shake');
       ch.style && ch.style.removeProperty('--pop-rot');
+      ch.style && ch.style.removeProperty('--shake-x');
     }
 
     clearTimers();
