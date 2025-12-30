@@ -5,7 +5,6 @@ url:  "https://fhrobat.github.io" # root address of the site
 scholar: "https://scholar.google.com/citations?hl=it&user=sB-MFsYAAAAJ"
 baseurl: "/website" # subpath of the site, e.g. "/blog" (leave it blank "" if you're site shouldn't use a subpath)
 description: >
-  <button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme"> <span id="theme-icon">🌓</span> </button>
   <p class="contacts">
    <a href="mailto:francesco.hrobat@maths.ox.ac.uk">Email</a>
    <a href="https://github.com/fhrobat/" target="_blank" rel="noopener">GitHub</a>
