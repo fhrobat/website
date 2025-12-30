@@ -22,7 +22,7 @@ entries:
         <li>
           <strong>Lanczos with compression for symmetric Lyapunov equations</strong><br>
           <em>24/06/2025 &emsp; ILAS 2025, Kaohsiung, Taiwan</em><br>
-          Invited speaker at Advances in Krylov subspace methods and their applications minisymposium
+          Invited speaker at "Advances in Krylov Subspace Methods and their Applications" Minisymposium
         </li>
         <li>
           <strong> Lanczos with compression for symmetric Lyapunov equations </strong><br>
@@ -35,6 +35,27 @@ entries:
         </li>
       </ol>
 
-  - title: teaching
+  - title: Education
+    url: education.html
+    content: |
+      <ol>
+        <li>
+          <em>Oct 2025 - </em><strong>Phd</strong>, University of Oxford, Linacre College, Oxford, United Kingdom
+        </li>
+        <li>
+          <em>Jan 2025 - Feb 2025</em><strong>Visiting studen</strong>, EPFL, Lausanne, Switzerland
+        </li>
+        <li>
+          <em>Jul 2023 - Jul 2025</em><strong>Master's degree</strong>, University of Pisa, Pisa, Italy
+        </li>
+        <li>
+          <em>Sep 2020 - Jul 2025</em><strong>Diploma</strong>, Scuola Normale Superiore of Pisa, Pisa, Italy
+        </li>
+        <li>
+          <em>Sep 2020 - Jul 2023</em><strong>Bachelor's degree</strong>, University of Pisa, Pisa, Italy
+        </li>
+      </ol>
+
+  - title: Teaching
     url: teaching.html
     content: ""    # oppure rimuovi questa riga se non serve
