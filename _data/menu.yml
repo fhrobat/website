@@ -58,4 +58,27 @@ entries:
 
   - title: Teaching
     url: teaching.html
-    content: ""    # oppure rimuovi questa riga se non serve
+    content: |
+     <ul>
+       <li>
+         <strong>MT25:</strong> TA for Practical Numerical Analysis
+     </ul>
+  - title: Extra activities
+    content: |
+     <ul>
+      <li>
+        <em>Nov 2024 - Jul 2025</em> &emsp; <strong>SIAM Student Chapter officer</strong> for UniPi-SNS chapter
+      </li>
+      <li>
+        <em>May 2025> &emsp; <strong>Prima Math Fest</strong> organized by Prima Assicurazioni for selected italian students
+      </li>
+      <li>
+         <em>May 2025> &emsp; <strong>Generali Sping Camp</strong> organized by Assicurazioni Generali for selected italian students
+      </li>
+      <li>
+        <em>Mar 2024> &emsp; <strong>Spring into Quant Finance</strong> organized by G-Research for selected international students
+      </li>
+      <li>
+        <em>Mar 2023 - Jun 2023> &emsp; <strong>Parallel Computing (Calcolo Parallelo dall’Infrastruttura alla Matematica)</strong> organized by University of Pisa. The course consisted in theory and practice of parallel computing 
+      </li>
+     </ul>
