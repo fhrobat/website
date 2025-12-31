@@ -9,6 +9,9 @@ layout: default
     >
 </div>
 
+<button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme"> <span id="theme-icon">🌓</span> </button>
+
+<div id="site-wrapper">
 <header>
   <h1 id="name_title">{{ site.title }}</h1>
   {%-if site.theme_config.show_description-%}
@@ -16,8 +19,8 @@ layout: default
   {%-endif-%}
 </header>
 
-<button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme"> <span id="theme-icon">🌓</span> </button>
 {%-include menu_item.html collection=site.data.menu.entries-%}
 
 {{ content }}
+<div id="site-wrapper">
 <script type="module" src="{{ '/assets/js/home.js' | relative_url }}"></script>
