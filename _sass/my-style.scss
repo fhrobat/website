@@ -1,31 +1,40 @@
 // -------------- THEME SWITCHER -------------- //
 @mixin dark-appearance {
   filter: invert(1);
+
   img {
     filter: invert(1);
 
     &.ioda { filter: invert(0); }
     &.no-reinvert { filter: invert(0); }
   }
+
   .emoji { filter: invert(1); }
-  iframe {
-    filter: invert(1);
+
+  iframe { filter: invert(1); }
+}
+
+/* ===== DARK manuale ===== */
+body[a="dark"] #site-wrapper {
+  @include dark-appearance;
+}
+
+body[a="dark"] #page-loader {
+  @include dark-appearance;
+}
+
+/* ===== AUTO (prefers-color-scheme) ===== */
+@media (prefers-color-scheme: dark) {
+
+  body[a="auto"] #site-wrapper {
+    @include dark-appearance;
+  }
+
+  body[a="auto"] #page-loader {
+    @include dark-appearance;
   }
 }
 
-body[a="dark"] > #site-wrapper { @include dark-appearance; }
-
-
-@media (prefers-color-scheme: dark) {
-  body[a="auto"] > #site-wrapper { @include dark-appearance; }
-}
-
-body[a="dark"] > #page-loader { @include dark-appearance; }
-
-
-@media (prefers-color-scheme: dark) {
-  body[a="auto"] > #page-loader { @include dark-appearance; }
-}
 // -------------------------------------------- //
 
 // bg color is also needed in html in order to
