@@ -1,58 +1,60 @@
-(function() {
-  const STORAGE_KEY = 'appearance'; // valori possibili: 'dark' | 'light' | 'auto'
-  const body = document.body;
-  const btn = document.getElementById('theme-toggle');
+// theme-toggle.js (o dentro home.js)
 
-  if (!btn) return; // niente da fare se il bottone non esiste
+const STORAGE_KEY = 'appearance';
+const body = document.body;
+const toggle = document.getElementById('theme-toggle');
+const icon = document.getElementById('theme-icon');
 
-  // Applica l'attributo 'a' sul body
-  function applyAttribute(value) {
+if (toggle) {
+
+  // ritorna true se il tema effettivo è dark
+  const isSystemDark = () =>
+    window.matchMedia &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const isEffectiveDark = (value) => {
+    if (value === 'dark') return true;
+    if (value === 'light') return false;
+    return isSystemDark(); // auto
+  };
+
+  const updateIcon = (value) => {
+    if (!icon) return;
+    icon.textContent = isEffectiveDark(value) ? '☀️' : '🌙';
+  };
+
+  const apply = (value) => {
     body.setAttribute('a', value);
-    updateButtonUI(value);
-  }
+    updateIcon(value);
+  };
 
-  // Determina se la modalità effettiva è dark (considera 'auto')
-  function isEffectiveDark(attrValue) {
-    if (attrValue === 'dark') return true;
-    if (attrValue === 'light') return false;
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-
-  // Aggiorna UI del bottone (icon, aria-pressed, title)
-  function updateButtonUI(attrValue) {
-    const dark = isEffectiveDark(attrValue);
-    btn.setAttribute('aria-pressed', String(dark));
-    btn.textContent = dark ? '☀️' : '🌙';
-    btn.title = dark ? 'Passa a light (doppio click = auto)' : 'Passa a dark (doppio click = auto)';
-  }
-
-  // Inizializza dal localStorage (fallback 'auto')
+  // inizializzazione
   const saved = localStorage.getItem(STORAGE_KEY);
-  applyAttribute(saved === 'dark' || saved === 'light' ? saved : 'auto');
+  apply(saved === 'dark' || saved === 'light' ? saved : 'auto');
 
-  // Click = inverte e salva
-  btn.addEventListener('click', () => {
-    const currentAttr = body.getAttribute('a') || 'auto';
-    const currentlyDark = isEffectiveDark(currentAttr);
-    const newAttr = currentlyDark ? 'light' : 'dark';
-    localStorage.setItem(STORAGE_KEY, newAttr);
-    applyAttribute(newAttr);
+  // click = inverti
+  toggle.addEventListener('click', () => {
+    const current = body.getAttribute('a') || 'auto';
+    const darkNow = isEffectiveDark(current);
+    const next = darkNow ? 'light' : 'dark';
+
+    localStorage.setItem(STORAGE_KEY, next);
+    apply(next);
   });
 
-  // Doppio click = torna ad 'auto' (rimuovi scelta)
-  btn.addEventListener('dblclick', () => {
+  // doppio click = torna ad auto
+  toggle.addEventListener('dblclick', () => {
     localStorage.removeItem(STORAGE_KEY);
-    applyAttribute('auto');
+    apply('auto');
   });
 
-  // Se l'utente cambia preferenza di sistema, aggiorna UI quando siamo in 'auto'
+  // se cambia il tema di sistema e siamo in auto, aggiorna icona
   if (window.matchMedia) {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
-      const currentAttr = body.getAttribute('a') || 'auto';
-      if (currentAttr === 'auto') updateButtonUI('auto');
-    };
-    if (mq.addEventListener) mq.addEventListener('change', onChange);
-    else mq.addListener(onChange);
+    mq.addEventListener('change', () => {
+      if ((body.getAttribute('a') || 'auto') === 'auto') {
+        updateIcon('auto');
+      }
+    });
   }
-})();
+}
