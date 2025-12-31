@@ -19,6 +19,13 @@ body[a="dark"] > #site-wrapper { @include dark-appearance; }
 @media (prefers-color-scheme: dark) {
   body[a="auto"] > #site-wrapper { @include dark-appearance; }
 }
+
+body[a="dark"] > #page-loader { @include dark-appearance; }
+
+
+@media (prefers-color-scheme: dark) {
+  body[a="auto"] > #page-loader { @include dark-appearance; }
+}
 // -------------------------------------------- //
 
 // bg color is also needed in html in order to
