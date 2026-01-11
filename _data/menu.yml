@@ -1,8 +1,6 @@
 entries:
   - title: Publications
     url: publications.html
-    content: |
-      {site.publications}
 
   - title: Talks and visits
     url: talks.html
