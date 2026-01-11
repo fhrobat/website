@@ -1,6 +1,6 @@
 (function () {
   // CONFIG: tieni questi valori sincronizzati con lo SCSS
-  const pulseDuration = 1100;  // ms -> deve corrispondere a loader-pulse
+  const pulseDuration = 700;  // ms -> deve corrispondere a loader-pulse
   const pulseCount = 2;        // quante pulsazioni aspettare prima di nascondere
 
   // lock / unlock page scroll
