@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Publications
+custom_js: theme
 ---
 
  <ol>
