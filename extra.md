@@ -6,4 +6,3 @@ custom_js: theme
 
 {% assign extra = site.data.menu.entries | find: "id", "extra" %}
 {{ extra.content }}
-
