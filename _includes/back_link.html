@@ -1,1 +1,6 @@
-<a href="{{ "/" | relative_url }}">{{ site.theme_config.back_home_text }}</a>
+<a 
+  href="{{ "/" | relative_url }}"
+  onclick="sessionStorage.setItem('skip-home-loader','true')"
+>
+  {{ site.theme_config.back_home_text }}
+</a>
