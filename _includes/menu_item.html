@@ -6,7 +6,7 @@
         <summary class="boxed-summary"> {{item.title}} </summary>
         <div class="smooth-content cascade">
           <p>
-            {{item.content}} <br>
+            {{ range first 5 item.content}} <br>
             <a href="{{ item.url }}">{{ item.title }}</a>
           </p>
         </div>
@@ -16,7 +16,7 @@
         <summary class="boxed-summary"> {{item.title}} </summary>
         <div class="smooth-content cascade">
           <p>
-            {{item.content}}
+            {{ range first 5 item.content}}
           </p>
         </div>
       </details>
