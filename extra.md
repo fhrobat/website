@@ -5,4 +5,8 @@ custom_js: theme
 ---
 
 {% assign extra = site.data.menu.entries | find: "id", "extra" %}
-{{ extra.content }}
+{% if extra and extra.content %}
+  {{ extra.content }}
+{% else %}
+  <!-- Nessun contenuto per publications -->
+{% endif %}
