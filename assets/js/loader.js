@@ -1,23 +1,66 @@
 (function () {
-  // CONFIG: tieni questi valori sincronizzati con lo SCSS
-  const pulseDuration = 700;  // ms -> deve corrispondere a loader-pulse
-  const pulseCount = 2;        // quante pulsazioni aspettare prima di nascondere
 
-  // lock / unlock page scroll
+  // ===============================
+  // SKIP LOADER SU BACK/FORWARD
+  // ===============================
+
+  const navEntry = performance.getEntriesByType('navigation')[0];
+  const isBackForward = navEntry && navEntry.type === 'back_forward';
+
+  // Se torniamo da back/forward cache, ripristina stato e NON avviare loader
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted || isBackForward) {
+      const loaderEl = document.getElementById('page-loader');
+      if (loaderEl) {
+        loaderEl.classList.add('hidden');
+        loaderEl.setAttribute('aria-hidden', 'true');
+      }
+
+      document.body.classList.remove('loading');
+      document.documentElement.classList.remove('no-scroll');
+      document.body.classList.remove('no-scroll');
+
+      window.dispatchEvent(new CustomEvent('page-loader-finished'));
+    }
+  });
+
+  // Blocca esecuzione iniziale se back/forward
+  if (isBackForward) {
+    return;
+  }
+
+  // ===============================
+  // CONFIG: tieni sincronizzati con SCSS
+  // ===============================
+
+  const pulseDuration = 700; // ms
+  const pulseCount = 2;     // pulsazioni
+
+  // ===============================
+  // LOCK / UNLOCK SCROLL
+  // ===============================
+
   function lockPageScroll() {
     document.documentElement.classList.add('no-scroll');
     document.body.classList.add('no-scroll');
   }
+
   function unlockPageScroll() {
     document.documentElement.classList.remove('no-scroll');
     document.body.classList.remove('no-scroll');
   }
 
-  // inizializza: flag loading e blocco scroll subito
+  // ===============================
+  // INIT
+  // ===============================
+
   document.body.classList.add('loading');
   lockPageScroll();
 
-  // definisci finishPageLoader se non esiste già
+  // ===============================
+  // FINISH LOADER (pubblica)
+  // ===============================
+
   if (typeof window.finishPageLoader !== 'function') {
     window.finishPageLoader = function finishPageLoader() {
       const loaderEl = document.getElementById('page-loader');
@@ -25,20 +68,24 @@
         loaderEl.classList.add('hidden');
         loaderEl.setAttribute('aria-hidden', 'true');
       }
-      // sblocca scroll PRIMA di rimuovere la flag loading
+
       unlockPageScroll();
       document.body.classList.remove('loading');
 
-      // dispatch evento per altri script (es. observer)
       window.dispatchEvent(new CustomEvent('page-loader-finished'));
     };
   }
 
-  // quando la pagina ha finito il caricamento, aspetta pulseCount pulsazioni e chiama finishPageLoader
+  // ===============================
+  // LOAD COMPLETE → WAIT PULSE
+  // ===============================
+
   function onLoadFinish() {
     const delay = pulseDuration * pulseCount;
     setTimeout(() => {
-      if (typeof window.finishPageLoader === 'function') window.finishPageLoader();
+      if (typeof window.finishPageLoader === 'function') {
+        window.finishPageLoader();
+      }
     }, delay);
   }
 
@@ -48,16 +95,23 @@
     window.addEventListener('load', onLoadFinish, { once: true });
   }
 
-  // fallback: se l'utente preferisce ridotte animazioni, skip loader e sblocca
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    // nascondi loader subito (se presente)
+  // ===============================
+  // REDUCED MOTION FALLBACK
+  // ===============================
+
+  if (
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
     const loaderEl = document.getElementById('page-loader');
     if (loaderEl) {
       loaderEl.classList.add('hidden');
       loaderEl.setAttribute('aria-hidden', 'true');
     }
+
     unlockPageScroll();
     document.body.classList.remove('loading');
+
     window.dispatchEvent(new CustomEvent('page-loader-finished'));
   }
 
