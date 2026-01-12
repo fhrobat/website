@@ -4,5 +4,5 @@ title: Teaching
 custom_js: theme
 ---
 
-{% assign teaching = site.data.menu.entries | find: "id", "teaching" | first %}
+{% assign teaching = site.data.menu.entries | where: "id", "teaching" | first %}
 {{ teaching.content }}
